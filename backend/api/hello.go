@@ -5,22 +5,25 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sakho13/backend/types"
 )
 
 func Hello(c *gin.Context) {
-	type responseType struct {
-		Message string `json:"message"`
-		From    string `json:"from"`
-		Now     string `json:"now"`
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		c.JSON(http.StatusOK, types.CommonResponseType[interface{}]{
+			ResultFlg: 0,
+			Message:   err.Error(),
+			Response:  nil,
+		})
+		return
 	}
-
-	jst, _ := time.LoadLocation("Asia/Tokyo")
 	now := time.Now().In(jst)
 
-	response := responseType{
-		Message: "Hello!?",
-		From:    "WithMe",
-		Now:     now.Format("2006/01/02 15:04:05"),
+	response := types.CommonResponseType[string]{
+		ResultFlg: 1,
+		Message:   "Hello!!",
+		Response:  now.Format("2006/01/02 15:04:05"),
 	}
 
 	c.JSON(http.StatusOK, response)

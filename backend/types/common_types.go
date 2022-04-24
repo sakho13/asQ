@@ -1,6 +1,12 @@
 package types
 
-type CommonResponseType[T any] struct {
-	result_flg int
-	response   T
+type CommonResponseType[T interface{}] struct {
+	// ResultFlg 1: success, 0: err
+	ResultFlg int `json:"result_flg"`
+
+	// Message shown when ResultFlg is 0
+	Message string `json:"message"`
+
+	// Response is main data
+	Response T `json:"response"`
 }
