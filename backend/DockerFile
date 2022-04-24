@@ -1,4 +1,4 @@
-FROM golang:1.17.3
+FROM golang:1.18.1
 
 RUN mkdir /go/src/backend
 
@@ -8,9 +8,9 @@ COPY . ./
 
 RUN go mod download
 
-RUN go install github.com/cosmtrek/air@latest
+# RUN go install github.com/cosmtrek/air@v1.29.0
 
 EXPOSE 8080
 
-# CMD [ "go", "run", "main.go" ]
-CMD [ "air", "-c", ".air.toml" ]
+CMD [ "go", "run", "main.go" ]
+# CMD [ "air", "-c", ".air.toml" ]
