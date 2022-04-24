@@ -1,0 +1,23 @@
+version: '3'
+services:
+  # API側
+  backend:
+    build:
+      context: ./backend
+      dockerfile: DockerFile
+    ports:
+      - "8890:8080"
+    tty: true
+    volumes:
+      - ./backend:/go/src/backend
+
+  # Vue側
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: DockerFile
+    ports:
+      - "8891:8080"
+    tty: true
+    volumes:
+      - ./frontend:/usr/src/frontend
