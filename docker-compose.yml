@@ -10,7 +10,7 @@ services:
       - "8890:8080"
     tty: true
     volumes:
-      - ./backend:/go/src/backend
+      - ./backend/:/go/src/backend/
 
   # Vue側
   frontend:
@@ -22,4 +22,4 @@ services:
       - "8891:8080"
     tty: true
     volumes:
-      - ./frontend:/usr/src/frontend
+      - ./frontend/:/usr/src/frontend/
