@@ -1,8 +1,11 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sakho13/backend/api"
+	"github.com/sakho13/backend/types"
 )
 
 func main() {
@@ -20,6 +23,15 @@ func main() {
 		api := v1.Group("/api")
 		api.GET("/")
 	}
+
+	// when received route not found
+	engine.NoRoute(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, types.CommonResponseType[interface{}]{
+			ResultFlg: 0,
+			Message:   "The route couldn't found.",
+			Response:  nil,
+		})
+	})
 
 	engine.Run(":8080")
 }
