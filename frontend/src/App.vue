@@ -11,15 +11,15 @@
         />
 
         <q-toolbar-title>
-          Quasar Appa
+          With Me
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- <div>Quasar v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <h3>Hi</h3>
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
@@ -28,6 +28,10 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "LayoutDefault"
+  name: "LayoutDefault",
+
+  setup() {
+    //
+  }
 })
 </script>

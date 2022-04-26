@@ -8,6 +8,10 @@ import (
 	"github.com/sakho13/backend/types"
 )
 
+func init() {
+	api.DBInit()
+}
+
 func main() {
 	engine := gin.Default()
 

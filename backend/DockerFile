@@ -8,9 +8,10 @@ COPY . ./
 
 RUN go mod download
 
-# RUN go install github.com/cosmtrek/air@v1.29.0
+# RUN apt-get update
+# RUN apt-get -y install mysql-client
 
 EXPOSE 8080
 
-CMD [ "go", "run", "main.go" ]
-# CMD [ "air", "-c", ".air.toml" ]
+# CMD [ "go", "run", "main.go" ]
+CMD [ "sh", "./start_app.sh" ]
