@@ -1,9 +1,9 @@
 package models
 
-import "time"
+import "gorm.io/gorm"
 
 type User struct {
-	ID        uint `gorm:"primaryKey"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	gorm.Model
+	// Status 0: normal, 1: stranger, 99: danger
+	Status uint
 }
