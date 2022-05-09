@@ -26,7 +26,16 @@ func DBInit() {
 
 }
 func migrations(db *gorm.DB) {
-	err := db.AutoMigrate(&models.User{})
+	err := db.AutoMigrate(
+		&models.User{},
+		&models.Post{},
+		&models.Diary{},
+		&models.Genre{},
+
+		// For Admin
+		&models.Admin{},
+		&models.Letter{},
+	)
 	if err != nil {
 		panic(err)
 	}

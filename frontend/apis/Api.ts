@@ -6,8 +6,12 @@ import { CommonResponseType } from "./ApiType"
  */
 export class Api {
   // GET
+  /**
+   * 接続確認用
+   * @returns
+   */
   static hello = async (): Promise<CommonResponseType<string>> => {
-    const res = await axios("localhost:8890/v1/hello")
+    const res = await axios.get("/v1/hello")
     return res.data
   }
 

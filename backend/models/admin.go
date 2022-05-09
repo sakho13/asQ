@@ -1,11 +1,14 @@
 package models
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type Admin struct {
-	ID        uint `gorm:"primaryKey"`
-	CreatedAt time.Time
-	UserID    uint
-	User      User
-	Password  string
+	gorm.Model
+
+	UserID uint
+	User   User
+	// Password 管理者ログイン時のパスワード
+	Password string `gorm:"not null"`
 }

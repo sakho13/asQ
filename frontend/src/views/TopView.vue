@@ -5,14 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue"
+import { defineComponent } from "vue"
 
 export default defineComponent({
   name: "TopView",
   setup() {
-    onMounted(() => {
-      //
-    })
+    //
   }
 })
 </script>

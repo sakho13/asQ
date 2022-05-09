@@ -24,8 +24,9 @@ func main() {
 	{
 		v1.GET("/hello", api.Hello)
 
-		api := v1.Group("/api")
-		api.GET("/")
+		v1Api := v1.Group("/api")
+		v1Api.POST("/user/create", api.CreateUser)
+		v1Api.POST("/user/edit", api.EditUser)
 	}
 
 	// when received route not found
