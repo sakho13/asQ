@@ -6,13 +6,13 @@ services:
       context: ./backend
       dockerfile: DockerFile
     links:
-      - db
+      - postgres
     container_name: backend
     ports:
       - "8890:8080"
     tty: true
     volumes:
-      - ./backend/:/go/src/backend/
+      - ./backend:/go/src/backend
     environment:
       # DEV or PRO
       - RUNNING_PLACE=DEV
@@ -23,21 +23,55 @@ services:
       context: ./frontend
       dockerfile: DockerFile
     container_name: frontend
+    links:
+      - backend
     ports:
       - "8891:8080"
     tty: true
     volumes:
-      - ./frontend/:/usr/src/frontend/
+      - ./frontend:/usr/src/frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
 
   # DB
-  db:
-    image: mysql:8.0
-    container_name: db_mysql
-    ports:
-      - "3310:3306"
-    tty: true
+  # db:
+  #   image: mysql:8.0
+  #   container_name: db_mysql
+  #   ports:
+  #     - "3310:3306"
+  #   tty: true
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=MSAKHO13P
+  #     - MYSQL_DATABASE=with_me_db
+
+  postgres:
+    image: postgres:latest
+    container_name: db_postgres
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=MSAKHO13P
-      - MYSQL_DATABASE=with_me_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./db_scripts/:/docker-entrypoint-initdb.d
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - 81:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@example.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  postgres:
+  pgadmin:
