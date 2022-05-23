@@ -1,7 +1,7 @@
 <template>
-  <q-page padding>
+  <div>
     <h3>Here is TOP page!</h3>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

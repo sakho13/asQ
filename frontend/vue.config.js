@@ -6,6 +6,7 @@ module.exports = defineConfig({
       poll: 1000,
     }
   },
+
   devServer: {
     proxy: "http://localhost:8890"
   },
@@ -13,9 +14,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
 
   pluginOptions: {
-    quasar: {
-      importStrategy: 'kebab',
-      rtlSupport: false
-    }
+    vuetify: {
+			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
+		}
   }
 })

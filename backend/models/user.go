@@ -6,7 +6,7 @@ import (
 
 type User struct {
 	ID          uint   `gorm:"primarykey"`
-	FireBaseUID string `gorm:"primarykey"`
+	FireBaseUID string `gorm:"unique;not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 
@@ -25,7 +25,4 @@ type User struct {
 
 	// Status 0: normal, 1: stranger, 99: danger
 	Status uint `gorm:"not null"`
-
-	// Progress if this was 100 then settings all completed
-	Progress uint `gorm:"not null"`
 }

@@ -69,6 +69,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     volumes:
       - pgadmin:/var/lib/pgadmin
+      - ./server.json:/pgadmin4/servers.json
     depends_on:
       - postgres
 

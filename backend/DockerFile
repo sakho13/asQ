@@ -11,7 +11,9 @@ RUN go mod download
 # RUN apt-get update
 # RUN apt-get -y install mysql-client
 
+RUN go install github.com/cosmtrek/air@latest
+
 EXPOSE 8080
 
 # CMD [ "go", "run", "main.go" ]
-CMD [ "sh", "./start_app.sh" ]
+CMD [ "air" ]

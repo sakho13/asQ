@@ -1,65 +1,30 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="text-dark">
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-        />
-
-        <q-toolbar-title>
-          With Me
-          <q-icon :color="apiServerIsOn ? 'red': 'grey'" name="api"/>
-        </q-toolbar-title>
-
-        <!-- <div>Quasar v{{ $q.version }}</div> -->
-      </q-toolbar>
-    </q-header>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <v-app :theme="'mainLightTheme'">
+    <v-app-bar color="primary">
+      <v-app-bar-title>WithMe</v-app-bar-title>
+    </v-app-bar>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  watch,
-  onMounted,
-  ref
-} from 'vue'
-import { useQuasar } from "quasar"
+import { defineComponent } from 'vue'
 import { Api } from "../apis/Api"
 
 export default defineComponent({
-  name: "LayoutDefault",
+  name: 'App',
 
   setup() {
-    const $q = useQuasar()
-    const apiServerIsOn = ref(false)
+    Api.hello()
+      .then((res) => {
+        console.table(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
-    onMounted(async () => {
-      const res = await Api.hello()
-      if (res.result_flg === 1) {
-        apiServerIsOn.value = true
-      }
-    })
-
-
-    watch(
-      () => $q.dark.isActive,
-      (val) => {
-        console.log(val ? 'On dark mode' : 'On light mode')
-      }
-    )
-
-    return {
-      apiServerIsOn,
-    }
   }
 })
 </script>
