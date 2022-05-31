@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container>
     <h3>Here is TOP page!</h3>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

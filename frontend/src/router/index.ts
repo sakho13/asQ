@@ -8,9 +8,9 @@ const routes: Array<RouteRecordRaw> = [
     component: TopView,
   },
   {
-    path: '/sign_up',
-    name: 'SignUp',
-    component: () => import('../views/SignupView.vue')
+    path: '/sign_in',
+    name: 'SignIn',
+    component: () => import('../views/SignInView.vue')
   }
 ]
 
