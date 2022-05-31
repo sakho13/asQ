@@ -9,3 +9,10 @@
 - タイムライン
 - グループ
 - 
+
+## 使用(予定)ツール
+
+- Heroku
+  - Postgres
+  - DockerCompose
+- Firebase Auth
