@@ -1,3 +1,4 @@
 .vscode
 
 firebase_config.ts
+package-lock.json
