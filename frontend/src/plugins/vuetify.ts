@@ -27,5 +27,5 @@ export default createVuetify({
         colors: {},
       }
     }
-  }
+  },
 })
