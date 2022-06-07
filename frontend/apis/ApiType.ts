@@ -7,3 +7,10 @@ export type CommonResponseType<T> = {
   message: string
   response: T | null
 }
+
+/**
+ * /v1/api/user/create
+ */
+export type CreateUserInput = {
+  firebase_jwt: string
+}

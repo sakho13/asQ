@@ -2,28 +2,40 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sakho13/backend/models"
 	"github.com/sakho13/backend/types"
-	"github.com/sakho13/backend/utils"
 )
 
 func CreateUser(c *gin.Context) {
 	var input types.CreateUserInput
 	c.Bind(&input)
 
-	userUtil := utils.UserUtil{}
+	// user := models.User{
+	// 	FireBaseUID: input.FireBaseUID,
+	// 	CreatedAt:   time.Now(),
+	// 	UpdatedAt:   time.Now(),
+	// 	Permission:  0,
+	// 	Status:      0,
+	// 	Initialized: false,
+	// }
 
-	// validate
-	err := userUtil.CheckCreateUserInput(&input)
-	if err != nil {
-		ErrResponse(c, err)
-		return
+	// existUsers := []models.User{}
+	// result := DB.Where(&models.User{FireBaseUID: input.FireBaseUID}).Find(&existUsers)
+
+	// if result.RowsAffected > 0 {
+	// 	// 既に存在している
+	// } else {
+	// 	// 完全に新規
+	// 	result := DB.Create(&user)
+	// 	if result.Error != nil {
+	// 		log.Fatalln(result.Error.Error())
+	// 		ErrResponse(c, "登録処理に失敗しました。")
+	// 		return
+	// 	}
+	// }
+
+	response := types.CreateUserOutput{
+		Through:     true,
+		Initialized: false,
 	}
-
-	user := models.User{
-		FireBaseUID: input.FireBaseUID,
-		NickName:    input.NickName,
-	}
-
-	BasicResponse(c, user.NickName)
+	BasicResponse(c, response)
 }

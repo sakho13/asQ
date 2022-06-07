@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,13 +11,11 @@ import (
 // ErrResponse
 //
 // エラー時のレスポンス処理
-func ErrResponse(ctx *gin.Context, err error) {
-
-	log.Printf("ERROR: %v", err.Error())
+func ErrResponse(ctx *gin.Context, err string) {
 
 	response := types.CommonResponseType[interface{}]{
 		ResultFlg: 0,
-		Message:   err.Error(),
+		Message:   err,
 		Response:  nil,
 	}
 	ctx.JSON(http.StatusOK, response)

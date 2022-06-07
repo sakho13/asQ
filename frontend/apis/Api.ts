@@ -17,4 +17,8 @@ export class Api {
 
 
   // POST
+  static createUser = () => {
+    const res = await axios.get("/v1/api/user/create")
+    return res.data
+  }
 }

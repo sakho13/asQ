@@ -21,8 +21,11 @@ type User struct {
 
 	Posts []*Post `gorm:"many2many:user_posts;"`
 
+	// Permission 0: normal
 	Permission uint
 
 	// Status 0: normal, 1: stranger, 99: danger
 	Status uint `gorm:"not null"`
+
+	Initialized bool `gorm:"not null"`
 }
