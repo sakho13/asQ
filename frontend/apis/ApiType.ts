@@ -3,14 +3,22 @@
  */
 export type CommonResponseType<T> = {
   // 1: success, 0: err
-  result_flg: 1 | 0
-  message: string
-  response: T | null
-}
+  result_flg: 1 | 0;
+  message: string;
+  response: T | null;
+};
 
 /**
  * /v1/api/user/create
  */
 export type CreateUserInput = {
-  firebase_jwt: string
-}
+  firebase_jwt: string;
+};
+
+/**
+ * /v1/api/user/create
+ */
+export type CreateUserOutput = CommonResponseType<{
+  through: boolean;
+  initialized: boolean;
+}>;

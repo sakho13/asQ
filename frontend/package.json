@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "firebase": "^9.8.2",
+    "firebase-admin": "^10.2.0",
     "pinia": "^2.0.14",
     "roboto-fontface": "*",
     "vue": "^3.2.13",

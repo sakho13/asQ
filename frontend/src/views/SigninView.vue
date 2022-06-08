@@ -10,25 +10,48 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, onMounted } from "vue"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { FirebaseAuth } from "../main"
 import router from "../router"
+import { Api } from "../../apis/Api"
+import { userStore } from "../pinia/userStore"
+import { storeToRefs } from "pinia"
 
 export default defineComponent({
   name: "SignInView",
 
   setup() {
+    const userStoreObj = userStore()
+    const refUserStoreObj = storeToRefs(userStoreObj)
+
+    onMounted(() => {
+      FirebaseAuth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const token = await user.getIdToken()
+          userStoreObj.setJwt(token)
+          router.replace({ name: "Home" })
+        }
+      })
+    })
 
     const SignInWithGoogle = () => {
-      console.log("SignInWithGoogle")
       const provider = new GoogleAuthProvider()
       signInWithPopup(FirebaseAuth, provider)
-        .then(() => {
-          router.replace({ name: "Home" })
-        })
-        .catch((err) => {
-          console.table(err)
+        .then(async (res) => {
+          const token = await res.user.getIdToken()
+
+          const apiRes = await Api.createUser({
+            firebase_jwt: token,
+          })
+
+          if (apiRes.result_flg === 1) {
+            userStoreObj.setJwt(token)
+            router.replace({ name: "Home" })
+          } else {
+            userStoreObj.resetJWT()
+            router.replace({ name: "Top" })
+          }
         })
     }
 

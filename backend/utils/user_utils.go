@@ -1,22 +1,22 @@
 package utils
 
 import (
-	"errors"
-	"strings"
+	"context"
+	"log"
 
-	"github.com/sakho13/backend/types"
+	firebase "firebase.google.com/go"
+	option "google.golang.org/api/option"
 )
 
 type UserUtil struct{}
 
-func (u UserUtil) CheckCreateUserInput(input *types.CreateUserInput) error {
+func (u UserUtil) CheckFirebaseToken(token string) error {
 
-	if len(strings.TrimSpace(input.FireBaseUID)) == 0 {
-		return errors.New("")
-	}
-
-	if len(strings.TrimSpace(input.NickName)) == 0 {
-		return errors.New("")
+	opt := option.WithCredentialsFile("../firebase_config.json")
+	app, err := firebase.NewApp(context.Background(), nil, opt)
+	if err != nil {
+		log.Fatalln(err)
+		return err
 	}
 
 	return nil

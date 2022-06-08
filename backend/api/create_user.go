@@ -1,6 +1,8 @@
 package api
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sakho13/backend/types"
 )
@@ -8,6 +10,8 @@ import (
 func CreateUser(c *gin.Context) {
 	var input types.CreateUserInput
 	c.Bind(&input)
+
+	log.Println(input.FirebaseJWT)
 
 	// user := models.User{
 	// 	FireBaseUID: input.FireBaseUID,
