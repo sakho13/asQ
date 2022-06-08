@@ -30,6 +30,7 @@ export default defineComponent({
         if (user) {
           const token = await user.getIdToken()
           userStoreObj.setJwt(token)
+          userStoreObj.setUid(user.uid)
           router.replace({ name: "Home" })
         }
       })
@@ -43,6 +44,7 @@ export default defineComponent({
 
           const apiRes = await Api.createUser({
             firebase_jwt: token,
+            firebase_uid: res.user.uid,
           })
 
           if (apiRes.result_flg === 1) {

@@ -18,7 +18,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const res = await Api.createUser({
-        firebase_jwt: userStoreObj.getJWT
+        firebase_jwt: userStoreObj.getJWT,
       })
       if (res.result_flg === 1 && res.response) {
         console.log(res.response.through)

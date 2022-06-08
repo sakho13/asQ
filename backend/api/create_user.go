@@ -23,11 +23,6 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	if decodedToken.UID != input.FirebaseUID {
-		ErrResponse(c, "ID非マッチ")
-		return
-	}
-
 	log.Println(decodedToken)
 
 	user := models.User{

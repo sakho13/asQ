@@ -34,6 +34,7 @@ import { Api } from "../apis/Api"
 import { userStore } from './pinia/userStore'
 import router from './router'
 import { RouterLink, RouterView } from "vue-router"
+import { FirebaseAuth } from './main'
 
 export default defineComponent({
   name: 'App',
@@ -54,6 +55,9 @@ export default defineComponent({
         // console.table(res)
       })
 
+    const signout = async () => {
+      await FirebaseAuth.signOut()
+    }
 
     const jumpTopPage = () => {
       router.push({ name: "Top" })
@@ -64,6 +68,7 @@ export default defineComponent({
       refUserStoreObj,
 
       jumpTopPage,
+      signout,
     }
   }
 })
