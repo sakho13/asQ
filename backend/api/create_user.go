@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sakho13/backend/models"
 	"github.com/sakho13/backend/types"
-	"github.com/sakho13/backend/utilities"
+	"github.com/sakho13/backend/utils"
 )
 
 func CreateUser(c *gin.Context) {
 	var input types.CreateUserInput
 	c.Bind(&input)
 
-	userUtil := utilities.UserUtil{}
+	userUtil := utils.UserUtil{}
 
 	decodedToken, err := userUtil.DecodeFirebaseToken(input.FirebaseJWT)
 	if err != nil {
