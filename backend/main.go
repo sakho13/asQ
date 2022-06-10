@@ -13,6 +13,7 @@ import (
 
 func init() {
 	api.DBInit()
+	api.InitFirebase()
 }
 
 func main() {
@@ -57,6 +58,7 @@ func main() {
 			v1ApiAuth := v1Api.Group("/auth")
 			{
 				v1ApiAuth.POST("/user/edit", api.EditUser)
+				v1ApiAuth.POST("/user/check", api.CheckUser)
 			}
 		}
 

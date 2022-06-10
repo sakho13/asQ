@@ -1,4 +1,4 @@
-package utils
+package api
 
 import (
 	"context"
@@ -9,24 +9,28 @@ import (
 	option "google.golang.org/api/option"
 )
 
-type UserUtil struct{}
+var firebaseApp *firebase.App
+var firebaseClient *auth.Client
 
-func (u UserUtil) DecodeFirebaseToken(token string) (*auth.Token, error) {
-
+func InitFirebase() {
 	opt := option.WithCredentialsFile("firebase_config.json")
+
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		log.Fatalln(err.Error())
-		return nil, err
 	}
 
 	client, err := app.Auth(context.Background())
 	if err != nil {
 		log.Fatalln(err.Error())
-		return nil, err
 	}
 
-	decodedToken, err := client.VerifyIDToken(context.Background(), token)
+	firebaseApp = app
+	firebaseClient = client
+}
+
+func DecodeFirebaseToken(token string) (*auth.Token, error) {
+	decodedToken, err := firebaseClient.VerifyIDToken(context.Background(), token)
 	if err != nil {
 		log.Fatalln(err.Error())
 		return nil, err

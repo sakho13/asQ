@@ -15,9 +15,9 @@ var DB *gorm.DB
 // DBInit executes initializing DB.
 func DBInit() {
 	// mysql
-	// localDsn := "root:MSAKHO13P@tcp(db_mysql)/with_me_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
+	// localDsn := "root:MSAKHO13P@tcp(db_mysql)/puround?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
 	// postgres
-	localDsn := "host=postgres port=5432 user=user password=password dbname=with_me_db sslmode=disable TimeZone=Asia/Tokyo"
+	localDsn := "host=postgres port=5432 user=user password=password dbname=puround sslmode=disable TimeZone=Asia/Tokyo"
 	db, err := dbOpen(localDsn, 30)
 	if err != nil {
 		panic(err)

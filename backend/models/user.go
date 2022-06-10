@@ -14,7 +14,7 @@ type User struct {
 	NickName string `gorm:"size:64;not null"`
 	// SelfIntroduce is introducing themself
 	SelfIntroduce string `gorm:"not null"`
-	// Sex 0: woman, 1: man, 99: otherwise
+	// Sex 0: woman, 1: man, 99: otherwise, 100: unknown
 	Sex uint `gorm:"not null"`
 	// Age: if this is 0 then private
 	Age uint `gorm:"not null"`
