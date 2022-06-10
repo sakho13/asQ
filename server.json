@@ -1,7 +1,7 @@
 {
   "Servers": {
     "1": {
-      "Name": "with_me",
+      "Name": "puround",
       "Group": "docker_postgres_group",
       "Host": "postgres",
       "Port": 5432,

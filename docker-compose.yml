@@ -58,21 +58,21 @@ services:
       - postgres:/var/lib/postgresql/data
       - ./db_scripts/:/docker-entrypoint-initdb.d
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   restart: always
-  #   ports:
-  #     - 81:80
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: root@example.com
-  #     PGADMIN_DEFAULT_PASSWORD: root
-  #   volumes:
-  #     - pgadmin:/var/lib/pgadmin
-  #     - ./server.json:/pgadmin4/servers.json
-  #   depends_on:
-  #     - postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - 81:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@example.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./server.json:/pgadmin4/servers.json
+    depends_on:
+      - postgres
 
 volumes:
   postgres:
-  # pgadmin:
+  pgadmin:
