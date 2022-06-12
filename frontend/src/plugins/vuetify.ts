@@ -1,9 +1,9 @@
 // Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
 // Vuetify
-import { createVuetify  } from 'vuetify'
+import { createVuetify } from "vuetify";
 
 export default createVuetify({
   theme: {
@@ -12,20 +12,31 @@ export default createVuetify({
       mainLightTheme: {
         dark: false,
         colors: {
-          primary: '#d2ecf7',
-          secondary: '#0d95a0',
-          accent: '#58456b',
+          background: "#fafafa",
+          primary: "#d2ecf7",
+          secondary: "#0d95a0",
+          accent: "#58456b",
           // dark: '#3a3535',
-          positive: '#409140',
-          negative: '#bf2e16',
-          info: '#9dd6c0',
-          warning: '#fcdc59'
+          positive: "#409140",
+          negative: "#bf2e16",
+          info: "#9dd6c0",
+          warning: "#fcdc59",
         },
       },
       mainDarkTheme: {
         dark: true,
-        colors: {},
-      }
-    }
+        colors: {
+          background: "#cdcdc1",
+          primary: "#d2ecf7",
+          secondary: "#0d95a0",
+          accent: "#58456b",
+          // dark: '#3a3535',
+          positive: "#409140",
+          negative: "#bf2e16",
+          info: "#9dd6c0",
+          warning: "#fcdc59",
+        },
+      },
+    },
   },
-})
+});

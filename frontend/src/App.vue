@@ -60,16 +60,14 @@ export default defineComponent({
 
 
     onMounted(async () => {
-      // 疎通確認
-      const res = await Api.hello()
-      if (res.result_flg === 1) {
-        const hour = Number(res.response.split(' ')[1].split(':')[0])
-        console.log(hour, theme.name.value)
-        // if (hour <= 6 || hour >= 18) {
-        //   theme.name.value = 'dark'
-        // } else {
-        //   theme.name.value = 'light'
-        // }
+      const date = new Date()
+      const hour = date.getHours()
+      console.log(hour, theme.name.value)
+      if (hour <= 6 || hour >= 18) {
+        console.log("dark")
+        theme.name.value = 'mainDarkTheme'
+      } else {
+        theme.name.value = 'mainLightTheme'
       }
     })
 
