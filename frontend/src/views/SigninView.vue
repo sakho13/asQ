@@ -14,23 +14,21 @@ import { defineComponent, onMounted } from "vue"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { FirebaseAuth } from "../main"
 import router from "../router"
-import { Api } from "../../apis/Api"
+import { Api } from "../apis/Api"
 import { userStore } from "../pinia/userStore"
-import { storeToRefs } from "pinia"
 
 export default defineComponent({
   name: "SignInView",
 
   setup() {
     const userStoreObj = userStore()
-    const refUserStoreObj = storeToRefs(userStoreObj)
+    // const refUserStoreObj = storeToRefs(userStoreObj)
 
     onMounted(() => {
       FirebaseAuth.onAuthStateChanged(async (user) => {
         if (user) {
           const token = await user.getIdToken()
           userStoreObj.setJwt(token)
-          userStoreObj.setUid(user.uid)
           router.replace({ name: "Home" })
         }
       })
@@ -44,7 +42,6 @@ export default defineComponent({
 
           const apiRes = await Api.createUser({
             firebase_jwt: token,
-            firebase_uid: res.user.uid,
           })
 
           if (apiRes.result_flg === 1) {

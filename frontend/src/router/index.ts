@@ -24,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
       requireAuth: true,
     },
   },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/AboutView.vue")
+  }
 ];
 
 const router = createRouter({
@@ -44,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.matched.some((rec) => rec.meta.requireAuth)) {
     // 認証チェック
-    await onAuthStateChanged(FirebaseAuth, async (user) => {
+    onAuthStateChanged(FirebaseAuth, async (user) => {
       if (user !== null) {
         return next();
       } else {
