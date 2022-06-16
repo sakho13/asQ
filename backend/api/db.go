@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"log"
+	"os"
 	"time"
 
 	"github.com/sakho13/backend/models"
@@ -14,11 +15,15 @@ var DB *gorm.DB
 
 // DBInit executes initializing DB.
 func DBInit() {
-	// mysql
-	// localDsn := "root:MSAKHO13P@tcp(db_mysql)/puround?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
-	// postgres
-	localDsn := "host=postgres port=5432 user=user password=password dbname=puround sslmode=disable TimeZone=Asia/Tokyo"
-	db, err := dbOpen(localDsn, 30)
+	planetscaleDsn := os.Getenv("PLANETSCALE_DSN")
+	dsn := ""
+	if planetscaleDsn != "" {
+		dsn = planetscaleDsn
+	} else {
+		// postgres
+		dsn = "host=postgres port=5432 user=user password=password dbname=puround sslmode=disable TimeZone=Asia/Tokyo"
+	}
+	db, err := dbOpen(dsn, 30)
 	if err != nil {
 		panic(err)
 	}
