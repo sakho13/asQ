@@ -4,10 +4,11 @@ import (
 	"errors"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/sakho13/backend/models"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -15,14 +16,13 @@ var DB *gorm.DB
 
 // DBInit executes initializing DB.
 func DBInit() {
-	planetscaleDsn := os.Getenv("PLANETSCALE_DSN")
-	dsn := ""
-	if planetscaleDsn != "" {
-		dsn = planetscaleDsn
-	} else {
-		// postgres
-		dsn = "host=postgres port=5432 user=user password=password dbname=puround sslmode=disable TimeZone=Asia/Tokyo"
+	dsn := os.Getenv("PLANETSCALE_DSN")
+	if len(strings.TrimSpace(dsn)) == 0 {
+		panic("DSN未設定")
 	}
+
+	log.Printf("Connecting to %v.\n", dsn)
+
 	db, err := dbOpen(dsn, 30)
 	if err != nil {
 		panic(err)
@@ -36,13 +36,13 @@ func DBInit() {
 func migrations(db *gorm.DB) {
 	err := db.AutoMigrate(
 		&models.User{},
-		&models.Post{},
-		&models.Diary{},
-		&models.Genre{},
+		// &models.Post{},
+		// &models.Diary{},
+		// &models.Genre{},
 
 		// For Admin
-		&models.Admin{},
-		&models.Letter{},
+		// &models.Admin{},
+		// &models.Letter{},
 	)
 	if err != nil {
 		panic(err)
@@ -50,7 +50,7 @@ func migrations(db *gorm.DB) {
 }
 
 func dbOpen(path string, tryCount uint) (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(path), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(path), &gorm.Config{})
 	if err != nil && db != nil {
 		if tryCount == 0 {
 			return nil, errors.New("TryCount over")
