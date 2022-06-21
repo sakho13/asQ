@@ -6,13 +6,13 @@
 
 ## 機能
 
+- ユーザ管理
 - タイムライン
 - グループ
-- 
 
 ## 使用(予定)ツール
 
 - Heroku
-  - Postgres
   - DockerCompose
+- PlanetScale
 - Firebase Auth
