@@ -12,6 +12,7 @@ import (
 var firebaseApp *firebase.App
 var firebaseClient *auth.Client
 
+// Initialize Firebase Parameters
 func InitFirebase() {
 	opt := option.WithCredentialsFile("firebase_config.json")
 
@@ -29,6 +30,7 @@ func InitFirebase() {
 	firebaseClient = client
 }
 
+// Decoding Firebase Token
 func DecodeFirebaseToken(token string) (*auth.Token, error) {
 	decodedToken, err := firebaseClient.VerifyIDToken(context.Background(), token)
 	if err != nil {
@@ -37,4 +39,19 @@ func DecodeFirebaseToken(token string) (*auth.Token, error) {
 	}
 
 	return decodedToken, nil
+}
+
+// Getting Firebase User Info
+func GetUserInfo(token string) (*auth.UserRecord, error) {
+	decodedToken, err := DecodeFirebaseToken(token)
+	if err != nil {
+		log.Fatalln(err.Error())
+		return nil, err
+	}
+	userInfo, err := firebaseClient.GetUser(context.Background(), decodedToken.UID)
+	if err != nil {
+		log.Fatalln(err.Error())
+		return nil, err
+	}
+	return userInfo, nil
 }

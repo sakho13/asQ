@@ -53,12 +53,11 @@ func main() {
 		v1Api := v1.Group("/api")
 		v1Api.Use(commonMiddleware())
 		{
-			v1Api.POST("/user/create", api.CreateUser)
+			v1Api.POST("/user", api.CreateUser)
 
 			v1ApiAuth := v1Api.Group("/auth")
 			{
-				v1ApiAuth.POST("/user/edit", api.EditUser)
-				v1ApiAuth.POST("/user/check", api.CheckUser)
+				v1ApiAuth.PUT("/user/edit", api.EditUser)
 			}
 		}
 

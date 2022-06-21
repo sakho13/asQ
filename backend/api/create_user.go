@@ -5,11 +5,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sakho13/backend/models"
 	"github.com/sakho13/backend/types"
 )
 
 func CreateUser(c *gin.Context) {
+	log.Println("> CreateUser")
+
 	var input types.CreateUserInput
 	c.Bind(&input)
 
@@ -20,17 +23,26 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	log.Println(decodedToken)
+	userInfo, err := GetUserInfo(input.FirebaseJWT)
+	if err != nil {
+		log.Fatalln(err.Error())
+		ErrResponse(c, "ユーザ情報取得エラー")
+		return
+	}
+
+	log.Printf("UserDisplayName: %v\n", userInfo.UserInfo.DisplayName)
 
 	user := models.User{
-		FireBaseUID: decodedToken.UID,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-		NickName:    "",
-		Sex:         100,
-		Permission:  0,
-		Status:      0,
-		Initialized: false,
+		FireBaseUID:   decodedToken.UID,
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
+		NickName:      "",
+		SelfIntroduce: "",
+		IconImg:       userInfo.PhotoURL,
+		Sex:           100,
+		Permission:    0,
+		Status:        0,
+		Initialized:   false,
 	}
 
 	existUsers := []models.User{}
@@ -54,6 +66,15 @@ func CreateUser(c *gin.Context) {
 		}
 	} else {
 		// 完全に新規
+		newUUID, err := uuid.NewRandom()
+		if err != nil {
+			log.Fatalln(err.Error())
+			ErrResponse(c, "UUID生成失敗")
+			return
+		}
+
+		user.ID = newUUID
+
 		result := DB.Create(&user)
 		if result.Error != nil {
 			log.Fatalln(result.Error.Error())
