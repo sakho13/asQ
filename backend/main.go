@@ -54,11 +54,6 @@ func main() {
 		v1Api.Use(commonMiddleware())
 		{
 			v1Api.POST("/user", api.CreateUser)
-
-			v1ApiAuth := v1Api.Group("/auth")
-			{
-				v1ApiAuth.PUT("/user/edit", api.EditUser)
-			}
 		}
 
 	}
