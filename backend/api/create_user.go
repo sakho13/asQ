@@ -19,30 +19,26 @@ func CreateUser(c *gin.Context) {
 	decodedToken, err := DecodeFirebaseToken(input.FirebaseJWT)
 	if err != nil {
 		log.Fatalln(err.Error())
-		ErrResponse(c, "トークンデコードエラー")
+		ErrResponse(c, 1000)
 		return
 	}
 
 	userInfo, err := GetUserInfo(input.FirebaseJWT)
 	if err != nil {
 		log.Fatalln(err.Error())
-		ErrResponse(c, "ユーザ情報取得エラー")
+		ErrResponse(c, 1)
 		return
 	}
 
 	log.Printf("UserDisplayName: %v\n", userInfo.UserInfo.DisplayName)
 
 	user := models.User{
-		FireBaseUID:   decodedToken.UID,
-		CreatedAt:     time.Now(),
-		UpdatedAt:     time.Now(),
-		NickName:      "",
-		SelfIntroduce: "",
-		IconImg:       userInfo.PhotoURL,
-		Sex:           100,
-		Permission:    0,
-		Status:        0,
-		Initialized:   false,
+		FireBaseUID: decodedToken.UID,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		NickName:    userInfo.DisplayName,
+		IconImg:     userInfo.PhotoURL,
+		TwitterID:   "",
 	}
 
 	existUsers := []models.User{}
@@ -52,16 +48,15 @@ func CreateUser(c *gin.Context) {
 		// 既に存在している
 		if result.RowsAffected == 1 {
 			// 1人だけである
+			user := existUsers[0]
 			response := types.CreateUserOutput{
-				Through:     true,
-				Initialized: existUsers[0].Initialized,
+				UserId: user.ID.String(),
 			}
 			BasicResponse(c, response)
 			return
 		} else {
 			// 複数人いる
-			log.Fatalln("同一UIDのユーザが複数人います")
-			ErrResponse(c, "ユーザ数マッチ")
+			ErrResponse(c, 2000)
 			return
 		}
 	} else {
@@ -69,22 +64,20 @@ func CreateUser(c *gin.Context) {
 		newUUID, err := uuid.NewRandom()
 		if err != nil {
 			log.Fatalln(err.Error())
-			ErrResponse(c, "UUID生成失敗")
+			ErrResponse(c, 1001)
 			return
 		}
 
 		user.ID = newUUID
 
-		result := DB.Create(&user)
-		if result.Error != nil {
+		if result := DB.Create(&user); result.Error != nil {
 			log.Fatalln(result.Error.Error())
-			ErrResponse(c, "登録処理に失敗。")
+			ErrResponse(c, 2000)
 			return
 		}
 
 		response := types.CreateUserOutput{
-			Through:     true,
-			Initialized: false,
+			UserId: user.ID.String(),
 		}
 		BasicResponse(c, response)
 		return
