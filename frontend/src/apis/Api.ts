@@ -4,7 +4,6 @@ import {
   CreateUserInput,
   CreateUserOutput,
 } from "./ApiType";
-import { userStore } from "../pinia/userStore";
 
 /**
  * 全API
@@ -26,17 +25,7 @@ export class Api {
   static createUser = async (
     input: CreateUserInput
   ): Promise<CreateUserOutput> => {
-    const res = await axios.post("/v1/api/user/create", input);
+    const res = await axios.post("/v1/api/user", input);
     return res.data as CreateUserOutput;
-  };
-
-  static checkUser = async () => {
-    const userStoreObj = userStore();
-    const res = await axios.post("/v1/api/auth/user/init", undefined, {
-      headers: {
-        Authorization: userStoreObj.jwt,
-      },
-    });
-    return res.data;
   };
 }

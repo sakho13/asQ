@@ -4,6 +4,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FirebaseAuth } from "@/main";
 import TopView from "../views/TopView.vue";
 import { userStore } from "../pinia/userStore";
+import { Api } from "@/apis/Api";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,8 +28,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/about",
     name: "About",
-    component: () => import("../views/AboutView.vue")
-  }
+    component: () => import("../views/AboutView.vue"),
+  },
+  {
+    path: "/signout",
+    name: "SignOut",
+    component: () => import("../views/SignOutView.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -51,10 +57,17 @@ router.beforeEach(async (to, from, next) => {
     // 認証チェック
     onAuthStateChanged(FirebaseAuth, async (user) => {
       if (user !== null) {
-        return next();
+        const res = await Api.createUser({
+          firebase_jwt: user.uid,
+        });
+        if (res.result_flg === 1) {
+          return next();
+        } else {
+          return next({ name: "Top" });
+        }
       } else {
         await signOut(FirebaseAuth);
-        return next({ name: "SignIn" });
+        return next({ name: "Top" });
       }
     });
   } else {

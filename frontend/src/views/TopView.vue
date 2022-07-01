@@ -7,14 +7,19 @@
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+        <!-- navigation of sign in -->
         <v-container class="SignInView d-flex justify-center">
-          <h2>Sign In</h2>
-          <div class="align-self-center">
-            <v-icon icon="fa fa-plus" />
-            <v-btn icon @click="SignInWithGoogle()">
-              <v-icon icon="mdi-google"></v-icon>
-            </v-btn>
-          </div>
+          <v-card style="width: 100%; height: 100%">
+            <v-card-title>Sign In</v-card-title>
+            <v-card-content>
+              <div class="align-self-center">
+                <v-icon icon="fa fa-plus" />
+                <v-btn icon @click="SignInWithGoogle()">
+                  <v-icon icon="mdi-google"></v-icon>
+                </v-btn>
+              </div>
+            </v-card-content>
+          </v-card>
         </v-container>
       </v-col>
     </v-row>
@@ -39,10 +44,10 @@ export default defineComponent({
     const overlay = ref(false)
     const userStoreObj = userStore()
 
-    onMounted(() => {
+    onMounted(async () => {
       overlay.value = true
 
-      FirebaseAuth.onAuthStateChanged(async (user) => {
+      await FirebaseAuth.onAuthStateChanged(async (user) => {
         if (user) {
           const token = await user.getIdToken()
           userStoreObj.setJwt(token)
@@ -82,6 +87,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 .SignInView {
   height: 100%;
 }

@@ -16,6 +16,8 @@ export type CommonResponseType<T> =
     };
 
 /**
+ * INPUT
+ *
  * /v1/api/user/create
  */
 export type CreateUserInput = {
@@ -23,9 +25,10 @@ export type CreateUserInput = {
 };
 
 /**
+ * OUTPUT
+ *
  * /v1/api/user/create
  */
 export type CreateUserOutput = CommonResponseType<{
-  through: boolean;
-  initialized: boolean;
+  user_id: string;
 }>;
