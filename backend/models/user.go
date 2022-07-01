@@ -15,7 +15,5 @@ type User struct {
 	// NickName for show
 	NickName string `gorm:"size:64;not null"`
 
-	IconImg string `gorm:"not null"`
-
 	TwitterID string `gorm:"not null"`
 }

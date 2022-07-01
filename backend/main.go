@@ -53,9 +53,10 @@ func main() {
 		v1Api := v1.Group("/api")
 		v1Api.Use(commonMiddleware())
 		{
+			v1Api.GET("/user", api.GetUser)
 			v1Api.POST("/user", api.CreateUser)
+			v1Api.PUT("/user", api.EditUser)
 		}
-
 	}
 
 	// when received route not found
@@ -79,13 +80,5 @@ func commonMiddleware() gin.HandlerFunc {
 
 		latency := time.Since(start)
 		log.Printf("Latency: %v", latency)
-	}
-}
-
-func requireAuthApiPreProcess() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		authJwt := ctx.GetHeader("Authorization")
-		if authJwt != "" {
-		}
 	}
 }

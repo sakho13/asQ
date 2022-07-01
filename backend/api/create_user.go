@@ -18,7 +18,6 @@ func CreateUser(c *gin.Context) {
 
 	decodedToken, err := DecodeFirebaseToken(input.FirebaseJWT)
 	if err != nil {
-		log.Fatalln(err.Error())
 		ErrResponse(c, 1000)
 		return
 	}
@@ -37,7 +36,6 @@ func CreateUser(c *gin.Context) {
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 		NickName:    userInfo.DisplayName,
-		IconImg:     userInfo.PhotoURL,
 		TwitterID:   "",
 	}
 
