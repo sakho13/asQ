@@ -28,8 +28,8 @@ export default defineComponent({
       const res = await Api.createUser({
         firebase_jwt: userStoreObj.jwt,
       })
-      if (res.result_flg === 1 && res.response) {
-        console.log(res.response.through)
+      if (res.result_flg === 1) {
+        console.log(res.response)
       } else {
         router.replace({ name: "SignIn" })
       }
