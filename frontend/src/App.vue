@@ -4,7 +4,7 @@
 
       <v-app-bar-nav-icon @click="drawerOpening = !drawerOpening"></v-app-bar-nav-icon>
 
-      <v-app-bar-title class="AppBarTitle" @click="jumpTopPage()">puround</v-app-bar-title>
+      <v-app-bar-title class="AppBarTitle" @click="jumpTopPage()">ASキュー</v-app-bar-title>
       <v-spacer />
     </v-app-bar>
 
@@ -36,9 +36,8 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia'
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useTheme } from 'vuetify'
-import { Api } from "./apis/Api"
 import { userStore } from './pinia/userStore'
 import router from './router'
 import { RouterLink, RouterView } from "vue-router"
@@ -63,12 +62,12 @@ export default defineComponent({
       const date = new Date()
       const hour = date.getHours()
       console.log(hour, theme.name.value)
-      if (hour <= 6 || hour >= 18) {
-        console.log("dark")
-        theme.name.value = 'mainDarkTheme'
-      } else {
-        theme.name.value = 'mainLightTheme'
-      }
+      // if (hour <= 6 || hour >= 18) {
+      //   console.log("dark")
+      //   theme.name.value = 'mainDarkTheme'
+      // } else {
+      //   theme.name.value = 'mainLightTheme'
+      // }
     })
 
     const signout = async () => {
