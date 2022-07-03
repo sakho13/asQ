@@ -8,19 +8,7 @@
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="6" xl="6">
         <!-- navigation of sign in -->
-        <v-container class="SignInView d-flex justify-center">
-          <v-card style="width: 100%; height: 100%">
-            <v-card-title>Sign In</v-card-title>
-            <v-card-content>
-              <div class="align-self-center">
-                <v-icon icon="fa fa-plus" />
-                <v-btn icon @click="SignInWithGoogle()">
-                  <v-icon icon="mdi-google"></v-icon>
-                </v-btn>
-              </div>
-            </v-card-content>
-          </v-card>
-        </v-container>
+        <login-card />
       </v-col>
     </v-row>
 
@@ -32,57 +20,34 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { FirebaseAuth } from "../main"
 import { userStore } from "../pinia/userStore"
 import { Api } from "../apis/Api"
 import router from "../router"
+import LoginCard from "../components/LoginCard.vue"
 
 export default defineComponent({
   name: "TopView",
   setup() {
-    const overlay = ref(false)
-    const userStoreObj = userStore()
+      const overlay = ref(false);
+      const userStoreObj = userStore();
+      onMounted(async () => {
+          overlay.value = true;
+          await FirebaseAuth.onAuthStateChanged(async (user) => {
+              if (user) {
+                  const token = await user.getIdToken();
+                  userStoreObj.setJwt(token);
+                  router.replace({ name: "Home" });
+              }
+          });
+          overlay.value = false;
+      });
 
-    onMounted(async () => {
-      overlay.value = true
-
-      await FirebaseAuth.onAuthStateChanged(async (user) => {
-        if (user) {
-          const token = await user.getIdToken()
-          userStoreObj.setJwt(token)
-          router.replace({ name: "Home" })
-        }
-      })
-      overlay.value = false
-    })
-
-    const SignInWithGoogle = () => {
-      const provider = new GoogleAuthProvider()
-      signInWithPopup(FirebaseAuth, provider)
-        .then(async (res) => {
-          const token = await res.user.getIdToken()
-
-          const apiRes = await Api.createUser({
-            firebase_jwt: token,
-          })
-
-          if (apiRes.result_flg === 1) {
-            userStoreObj.setJwt(token)
-            router.replace({ name: "Home" })
-          } else {
-            userStoreObj.resetJWT()
-            router.replace({ name: "Top" })
-          }
-        })
-    }
-
-    return {
-      overlay,
-
-      SignInWithGoogle,
-    }
-  }
+      return {
+          overlay,
+      };
+  },
+  components: { LoginCard }
 })
 </script>
 
